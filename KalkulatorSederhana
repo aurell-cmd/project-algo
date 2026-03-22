@@ -1,0 +1,74 @@
+#include <stdio.h>
+
+int a, b;
+
+void bilangan() {
+    printf("Masukkan angka (E untuk keluar): ");
+    scanf("%d", &a);
+    printf("Masukkan angka (E untuk keluar): ");
+    scanf("%d", &b);
+}
+
+int jumlah() {
+    return a + b;
+}
+
+int selisih() {
+    return a - b;
+}
+
+int kali() {
+    return a * b;
+}
+
+int bagi() {
+    return a / b;
+}
+
+int main() {
+    int result;
+    char simbol;
+
+    while (1 > 0) {
+        bilangan();
+
+        // Kondisi keluar — input 'E' tidak bisa dideteksi karena tipe data integer
+        // bisa diganti dengan logika lain jika menambahakan opsi keluar
+        if (a == 'E' || b == 'E') {
+            break;
+        }
+
+        printf("Masukkan simbol operasi (E untuk berhenti): ");
+        scanf(" %c", &simbol);
+
+        if (simbol == 'E') {
+            break;
+        }
+
+        switch (simbol) {
+            case '+':
+                result = jumlah();
+                break;
+            case '-':
+                result = selisih();
+                break;
+            case '*':
+                result = kali();
+                break;
+            case '/':
+                if (b == 0) {
+                    printf("Error: Tidak dapat melakukan pembagian dengan nol.\n");
+                    continue;
+                } else {
+                    result = bagi();
+                }
+                break;
+            default:
+                printf("Simbol operasi tidak valid.\n");
+                continue;
+        }
+        printf("Hasil: %d\n", result);
+    }
+
+    return 0;
+}

@@ -1,0 +1,30 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+int main() {
+    int secret, guess, attempts = 0;
+
+    srand(time(NULL));
+    secret = rand() % 20 + 1;
+
+    printf("Game Tebak Angka (1-20)\n");
+
+    do {
+        printf("Tebak Angka: ");
+        scanf("%d", &guess);
+        attempts++;
+
+if (guess == 99) break;
+        if (guess < secret) {
+            printf("Tebakan terlalu kecil!\n");
+        } else if (guess > secret) {
+            printf("Tebakan terlalu besar!\n");
+        } else {
+            printf("Benar, angkanya adalah %d\n,secret");
+            printf("Jumlah percobaan: %d\n", attempts);
+        }
+    } while (guess != secret);
+
+    return 0;
+}

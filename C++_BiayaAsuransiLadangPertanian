@@ -1,0 +1,27 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+int main() {
+    string jenisLadang;
+    double luas, biayaPerHektar, asuransi;
+
+    cout << "=== Program Hitung Biaya Asuransi Ladang Pertanian ===" << endl;
+    cout << "Masukkan jenis ladang     : ";
+    getline(cin, jenisLadang);
+    cout << "Masukkan luas ladang (ha) : ";
+    cin >> luas;
+    cout << "Masukkan biaya tanggungan per hektar : ";
+    cin >> biayaPerHektar;
+
+    // Rumus: 3.5% * biaya per hektar * luas
+    asuransi = 0.035 * biayaPerHektar * luas;
+
+    cout << "\nJenis ladang : " << jenisLadang << endl;
+    cout << "Luas ladang  : " << luas << " hektar" << endl;
+    cout << "Biaya/ha     : " << biayaPerHektar << endl;
+    cout << "===================================" << endl;
+    cout << "Biaya asuransi yang harus dibayar: " << asuransi << endl;
+
+    return 0;
+}

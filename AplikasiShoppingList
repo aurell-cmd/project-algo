@@ -1,0 +1,50 @@
+#include <stdio.h>
+#include <string.h>
+
+struct Barang {
+    char namaBarang[50];
+    int totalBarang;
+};
+
+int main() {
+    struct Barang dataBarang;
+    int menu;
+
+    do {
+        printf("\n=== MENU SHOPPING LIST ===\n");
+        printf("1. Tambah Barang\n");
+        printf("2. Lihat Daftar Belanja\n");
+        printf("3. Keluar\n");
+        printf("Pilihan: ");
+        scanf("%d", &menu);
+
+        if (menu == 1) {
+            printf("Nama barang: ");
+            scanf("%s", dataBarang.namaBarang);
+            printf("Jumlah: ");
+            scanf("%d", &dataBarang.totalBarang);
+
+            FILE *filePtr = fopen("ShoppingList.txt", "a");
+            fprintf(filePtr, "%s %d\n", dataBarang.namaBarang, dataBarang.totalBarang);
+            fclose(filePtr);
+
+            printf("Barang berhasil ditambahkan!\n");
+        }
+
+        else if (menu == 2) {
+            FILE *filePtr = fopen("ShoppingList.txt", "r");
+            if (filePtr == NULL) {
+                printf("Belum ada daftar belanja.\n");
+            } else {
+                printf("\n=== ISI DAFTAR BELANJA ===\n");
+                while (fscanf(filePtr, "%s %d", dataBarang.namaBarang, &dataBarang.totalBarang) != EOF) {
+                    printf("- %s : %d\n", dataBarang.namaBarang, dataBarang.totalBarang);
+                }
+                fclose(filePtr);
+            }
+        }
+
+    } while (menu != 3);
+
+    return 0;
+}  

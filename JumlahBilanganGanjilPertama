@@ -1,0 +1,30 @@
+#include <stdio.h>
+
+int main() {
+    int n;
+    printf("Masukkan nilai n (jumlah bilangan ganjil pertama): ");
+    scanf("%d", &n);
+
+    int sum = 0;
+
+    printf("Jumlah %d bilangan ganjil pertama:\n", n);
+    for (int i = 1; i <= n; i++) {
+        int oddNumber = 2 * i - 1;
+        sum += oddNumber;
+        printf("%d", oddNumber);
+        if (i < n) {
+            printf(" + ");
+        }
+    }
+
+    printf(" = %d\n", sum);
+    printf("Nilai %d^2 = %d\n", n, n * n);
+
+    if (sum == n * n) {
+        printf("Sehingga proposisi (pernyataan) tersebut benar.\n");
+    } else {
+        printf("Proposisi tersebut salah.\n");
+    }
+
+    return 0;
+}

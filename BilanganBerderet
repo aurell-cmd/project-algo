@@ -1,0 +1,16 @@
+#include <stdio.h>
+
+int main() {
+    int n, a;
+
+    printf ("Masukkan nilai n: ");
+    scanf("%d", &n);
+
+    a = n;
+    for (int i=1; i <= n; i++) {
+        printf ("%d ", a);
+        a +=n; //a = a + n
+    }
+printf ("\n");
+return 0;
+}

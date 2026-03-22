@@ -1,0 +1,14 @@
+#include <stdio.h>
+
+int main() {
+    int transaksi;
+    int total;
+
+    printf("Masukkan jumlah transaksi : ");
+    scanf("%d", &transaksi);
+
+    total = (transaksi > 500000) ? (transaksi + 10000) : transaksi;
+
+    printf("Total anda menjadi %d\n", total);
+    return 0;
+}

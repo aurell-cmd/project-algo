@@ -1,0 +1,15 @@
+#include <stdio.h>
+
+int main() {
+    int nim = 123456;
+    float nilaiUts = 90;
+    float nilaiPraktikum = 80;
+    float nilaiUas = 80;
+    float nilaiAkhir = (0.9 * nilaiUts) + (0.8 * nilaiPraktikum) + (0.8 * nilaiUas);
+
+    printf("nim anda adalah = %d\n", nim);
+    printf("nilai akhir anda adalah = %.2f\n", nilaiAkhir);
+    printf("%s", (nilaiAkhir >= 60) ? "Selamat anda lulus" : "Anda tidak lulus");
+
+    return 0;
+}

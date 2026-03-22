@@ -1,0 +1,45 @@
+#include <stdio.h>
+#include <math.h>
+
+int main() {
+    float ax, ay, az;
+    float bx, by, bz;
+
+    printf("Masukkan komponen vektor A (x y z): ");
+    scanf("%f %f %f", &ax, &ay, &az);
+
+    printf("Masukkan komponen vektor B (x y z): ");
+    scanf("%f %f %f", &bx, &by, &bz);
+
+    float sumx = ax + bx;
+    float sumy = ay + by;
+    float sumz = az + bz;
+
+    float diffx = ax - bx;
+    float diffy = ay - by;
+    float diffz = az - bz;
+
+    float dot = ax*bx + ay*by + az*bz;
+
+    float crossx = ay*bz - az*by;
+    float crossy = az*bx - ax*bz;
+    float crossz = ax*by - ay*bx;
+
+    float magA = sqrt(ax*ax + ay*ay + az*az);
+    float magB = sqrt(bx*bx + by*by + bz*bz);
+    float magCross = sqrt(crossx*crossx + crossy*crossy + crossz*crossz);
+
+    float angle = acos(dot / (magA * magB)) * 180.0 / M_PI;
+
+    printf("\n=== HASIL PERHITUNGAN VEKTOR 3D ===\n");
+    printf("A + B = (%.2f, %.2f, %.2f)\n", sumx, sumy, sumz);
+    printf("A - B = (%.2f, %.2f, %.2f)\n", diffx, diffy, diffz);
+    printf("Dot Product = %.2f\n", dot);
+    printf("Cross Product = (%.2f, %.2f, %.2f)\n", crossx, crossy, crossz);
+    printf("Jarak vektor hasil Cross Product = %.2f\n", magCross);
+    printf("Jarak vektor A = %.2f\n", magA);
+    printf("Jarak vektor B = %.2f\n", magB);
+    printf("Sudut antara A dan B = %.2f derajat\n", angle);
+
+    return 0;
+}

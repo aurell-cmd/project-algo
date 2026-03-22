@@ -1,0 +1,19 @@
+#include <stdio.h>
+
+int add_numbers(int num1, int num2);
+int GlobalVar = 0;
+
+int main()
+{
+    GlobalVar = 9;
+    printf("%d,\n", GlobalVar);
+    int result = add_numbers(4, 3);
+    printf("%d,\n", GlobalVar);
+}
+
+int add_numbers(int num1, int num2)
+{
+    int sum = num1 + num2;
+    GlobalVar = 11;
+    return sum;
+}

@@ -1,0 +1,28 @@
+#include <stdio.h>
+
+int main() {
+    int i, j;
+    int n = 4; // jumlah baris
+    int m = 5; // jumlah kolom
+    int angka = 1;
+
+    printf("Bonus\n");
+    for (i = 0; i < n; i++) {
+        if (i % 2 == 0) {
+            for (j = 0; j < m; j++) {
+                printf("%d ", angka);
+                angka++;
+            }
+        } else {
+            int temp = angka + m - 1;
+            for (j = 0; j < m; j++) {
+                printf("%d ", temp);
+                temp--;
+                angka++;
+            }
+        }
+        printf("\n");
+    }
+
+    return 0;
+}

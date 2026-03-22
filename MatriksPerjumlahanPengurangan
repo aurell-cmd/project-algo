@@ -1,0 +1,54 @@
+#include <stdio.h>
+
+int main() {
+    int baris, kolom;
+    int A[10][10], B[10][10], C[10][10], D[10][10];
+    int sama = 1;
+
+    printf("=== PROGRAM PENJUMLAHAN & PENGURANGAN MATRIKS ===\n");
+    printf("Masukkan jumlah baris = ");
+    scanf("%d", &baris);
+    printf("Masukkan jumlah kolom = ");
+    scanf("%d", &kolom);
+
+    printf("Masukkan elemen matriks A =\n");
+    for(int i = 0; i < baris; i++) {
+        for(int j = 0; j < kolom; j++) {
+            printf("A[%d][%d]: ", i+1, j+1);
+            scanf("%d", &A[i][j]);
+        }
+    }
+
+    printf("Masukkan elemen matriks B =\n");
+    for(int i = 0; i < baris; i++) {
+        for(int j = 0; j < kolom; j++) {
+            printf("B[%d][%d]: ", i+1, j+1);
+            scanf("%d", &B[i][j]);
+        }
+    }
+
+    printf("Hasil Penjumlahan =\n");
+    for(int i = 0; i < baris; i++) {
+        for(int j = 0; j < kolom; j++) {
+            C[i][j] = A[i][j] + B[i][j];
+            printf("%4d", C[i][j]);
+        }
+        printf("\n");
+    }
+
+    printf("Hasil Pengurangan =\n");
+    for(int i = 0; i < baris; i++) {
+        for(int j = 0; j < kolom; j++) {
+            D[i][j] = A[i][j] - B[i][j];
+            if (D[i][j] != 0)
+                sama = 0;
+            printf("%4d", D[i][j]);
+        }
+        printf("\n");
+    }
+
+    if (sama)
+        printf("Matriks dengan elemen sama\n");
+
+    return 0;
+}

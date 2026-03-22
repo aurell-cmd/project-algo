@@ -1,0 +1,67 @@
+#include <stdio.h>
+#include <string.h>
+
+float hitungAsuransi(char tanaman[], float nilaiPerHektar, float luasLahan) {
+    float biayaDasar = 0.035 * nilaiPerHektar * luasLahan;
+    float totalBiaya = 0;
+
+    if (strcmp(tanaman, "kedelai") == 0 || strcmp(tanaman, "kentang") == 0 ||
+        strcmp(tanaman, "bawang merah") == 0 || strcmp(tanaman, "cabai") == 0) {
+        totalBiaya = 2 * biayaDasar;
+    } 
+    else if (strcmp(tanaman, "padi") == 0 || strcmp(tanaman, "singkong") == 0 ||
+             strcmp(tanaman, "jagung") == 0) {
+        totalBiaya = 1.5 * biayaDasar;
+    } else {
+        totalBiaya = biayaDasar;
+    }
+
+    return totalBiaya;
+}
+void cetakSlip(char namaPetani[], char tanaman[][30], float biaya[], int jumlahLahan) {
+    float totalAsuransi = 0;
+
+    printf("\n===== SLIP PEMBAYARAN ASURANSI =====\n");
+    printf("Nama Petani : %s\n", namaPetani);
+    printf("------------------------------------------\n");
+
+    for (int i = 0; i < jumlahLahan; i++) {
+        printf("Lahan %d: %s\n", i + 1, tanaman[i]);
+        printf("Biaya Asuransi: Rp %.2f\n", biaya[i]);
+        totalAsuransi += biaya[i];
+    }
+
+    printf("------------------------------------------\n");
+    printf("Total asuransi yang harus dibayar: Rp %.2f\n", totalAsuransi);
+    printf("==========================================\n");
+}
+
+int main() {
+    char namaPetani[50];
+    char jenisTanaman[3][30];
+    float nilaiPertanggungan[3];
+    float luasLahan[3];
+    float biayaAsuransi[3];
+    int jumlahLahan;
+
+    printf("Masukkan nama petani: ");
+    gets(namaPetani);
+
+    printf("Berapa jenis ladang (maksimal 3): ");
+    scanf("%d", &jumlahLahan);
+    getchar(); 
+
+    for (int i = 0; i < jumlahLahan; i++) {
+        printf("\nMasukkan jenis tanaman di lahan ke-%d: ", i + 1);
+        gets(jenisTanaman[i]);
+        printf("Masukkan nilai tanggungan per hektar: ");
+        scanf("%f", &nilaiPertanggungan[i]);
+        printf("Masukkan luas lahan (hektar): ");
+        scanf("%f", &luasLahan[i]);
+        getchar();
+        biayaAsuransi[i] = hitungAsuransi(jenisTanaman[i], nilaiPertanggungan[i], luasLahan[i]);
+    }
+    
+    cetakSlip(namaPetani, jenisTanaman, biayaAsuransi, jumlahLahan);
+    return 0;
+}

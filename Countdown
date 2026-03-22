@@ -1,0 +1,19 @@
+#include <stdio.h>
+#include <windows.h>
+
+int main() {
+    int count;
+
+    printf("Masukkan angka countdown: ");
+    scanf("%d", &count);
+
+    printf("Countdown dimulai:\n");
+
+    while (count >= 0) {
+        printf("%d\n", count);
+        Sleep(1000);
+        count--;
+    }
+    printf("Waktu habis!\n,");
+    return 0;
+}

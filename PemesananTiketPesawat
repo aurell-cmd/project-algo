@@ -1,0 +1,408 @@
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+#include <time.h>
+
+int BARIS = 15;
+int KOLOM = 6;
+
+char denah[15][6];
+
+int hargaKelas[3] = {1500000, 1000000, 600000};
+int hargaBagasi[3] = {100000, 175000, 300000};
+
+int skipDenah = 0;
+
+void initDenah();
+void tampilkanDenah();
+void tampilkanMenu();
+void cariKursi();
+void pesanKursi();
+void batalkanKursi();
+void rekomendasiKursi();
+void statistik();
+void resetData();
+
+void tampilkanStruk(char nama[], char kelasStr[], int baris, char kolom,
+                    char bagasi, int total, int hargaKursi, int hargaBag, int jumlahTiket);
+
+void pause() {
+    printf("\nTekan ENTER untuk melanjutkan...");
+    while(getchar()!='\n');
+}
+
+void loadKursi() {
+    FILE *f = fopen("kursi_.txt", "r");
+    if (!f) {
+        printf("kursi_.txt tidak ditemukan, membuat denah kosong...\n");
+        initDenah();
+        return;
+    }
+
+    for (int i = 0; i < BARIS; i++)
+        for (int j = 0; j < KOLOM; j++)
+            fscanf(f, " %c", &denah[i][j]);
+
+    fclose(f);
+}
+
+void saveKursi() {
+    FILE *f = fopen("kursi_.txt", "w");
+    if (!f) {
+        printf("ERROR menulis kursi_.txt!\n");
+        return;
+    }
+
+    for (int i = 0; i < BARIS; i++) {
+        for (int j = 0; j < KOLOM; j++)
+            fprintf(f, "%c ", denah[i][j]);
+        fprintf(f, "\n");
+    }
+
+    fclose(f);
+}
+
+void loadHargaKursi() {
+    FILE *f = fopen("harga_.txt", "r");
+    if (!f) {
+        printf("harga_.txt tidak ditemukan, menggunakan default.\n");
+        hargaKelas[0]=1500000;
+        hargaKelas[1]=1000000;
+        hargaKelas[2]=600000;
+        return;
+    }
+
+    for (int i = 0; i < 3; i++)
+        fscanf(f, "%d", &hargaKelas[i]);
+
+    fclose(f);
+}
+
+int main() {
+    initDenah();
+    int pilihan;
+
+    do {
+        if (!skipDenah) {
+            tampilkanDenah();
+            tampilkanMenu();
+        }
+
+        skipDenah = 0;
+
+        printf("Masukkan pilihan: ");
+        scanf("%d", &pilihan);
+        while(getchar()!='\n');
+
+        switch (pilihan) {
+            case 1: skipDenah = 1; cariKursi(); break;
+            case 2: skipDenah = 1; pesanKursi(); break;
+            case 3: skipDenah = 1; batalkanKursi(); break;
+            case 4: skipDenah = 1; rekomendasiKursi(); break;
+            case 5: skipDenah = 1; statistik(); break;
+            case 6: skipDenah = 1; resetData(); break;
+            case 7: printf("Keluar...\n"); break;
+            default: printf("Pilihan tidak valid!\n");
+        }
+    } while (pilihan != 7);
+
+    return 0;
+}
+
+void initDenah() {
+    for (int i=0; i < BARIS; i++)
+        for (int j=0; j < KOLOM; j++)
+            denah[i][j] = '_';
+}
+
+void tampilkanDenah() {
+    printf("\n======== DENAH KURSI ========\n");
+    printf("     A B C D E F\n");
+
+    for (int i=0; i < BARIS; i++) {
+        printf("Baris %2d | ", i+1);
+        for (int j=0; j < KOLOM; j++)
+            printf("%c ", denah[i][j]);
+
+        if (i < 2) printf(" First Class");
+        else if (i < 5) printf(" Business Class");
+        else printf(" Economy Class");
+
+        printf("\n");
+    }
+}
+
+void tampilkanMenu() {
+    printf("\n========= MENU =========\n");
+    printf("1. Mencari Info Kursi\n");
+    printf("2. Pemesanan Kursi\n");
+    printf("3. Membatalkan Pemesanan\n");
+    printf("4. Rekomendasi Kursi Terbaik\n");
+    printf("5. Statistik & Pendapatan\n");
+    printf("6. Reset Data\n");
+    printf("7. Keluar\n");
+}
+
+void cariKursi() {
+    int baris;
+    char kolom;
+
+    printf("Masukkan baris: ");
+    scanf("%d", &baris);
+
+    printf("Masukkan kolom (A–F): ");
+    scanf(" %c", &kolom);
+    kolom = toupper(kolom);
+
+    if (baris < 1 || baris > BARIS || kolom < 'A' || kolom > 'F') {
+        printf("Input tidak valid!\n");
+        pause();
+        return;
+    }
+
+    char status = denah[baris-1][kolom-'A'];
+
+    if (status == '_') printf("Kursi %d%c MASIH KOSONG.\n", baris, kolom);
+    else if (status == 'X') printf("Kursi %d%c TERISI (Tanpa Bagasi).\n", baris, kolom);
+    else printf("Kursi %d%c TERISI (Bagasi %c)\n", baris, kolom, status);
+
+    pause();
+}
+
+void pesanTiketKe(int nomorTiket, char nama[], char kelas, int *totalSemua, int jumlahTiket) {
+    int baris;
+    char kolom, bagasi;
+
+    printf("\n=== Tiket ke-%d ===\n", nomorTiket);
+
+    printf("Pilih baris: ");
+    scanf("%d", &baris);
+
+    printf("Pilih kolom (A-F): ");
+    scanf(" %c", &kolom);
+    kolom = toupper(kolom);
+
+    if (baris < 1 || baris > BARIS || kolom < 'A' || kolom > 'F') {
+        printf("Input kursi tidak valid! Tiket dilewati.\n");
+        return;
+    }
+
+    int b = baris - 1;
+    int k = kolom - 'A';
+
+    if (denah[b][k] != '_') {
+        printf("Kursi %d%c sudah terisi! Tiket dilewati.\n", baris, kolom);
+        return;
+    }
+
+    if ((baris <= 2  && kelas != 'F') ||
+        (baris >= 3 && baris <= 5 && kelas != 'B') ||
+        (baris >= 6 && kelas != 'E')) {
+        printf("Baris tidak sesuai kelas! Tiket dilewati.\n");
+        return;
+    }
+
+    printf("Tambah bagasi? (A/B/C atau N): ");
+    scanf(" %c", &bagasi);
+    bagasi = toupper(bagasi);
+
+    int hargaKursi = 0;
+    int hargaBag = 0;
+    char kelasStr[20];
+
+    if (kelas == 'F') { strcpy(kelasStr, "First Class"); hargaKursi = hargaKelas[0]; }
+    if (kelas == 'B') { strcpy(kelasStr, "Business Class"); hargaKursi = hargaKelas[1]; }
+    if (kelas == 'E') { strcpy(kelasStr, "Economy Class"); hargaKursi = hargaKelas[2]; }
+
+    if (bagasi == 'A') hargaBag = hargaBagasi[0];
+    else if (bagasi == 'B') hargaBag = hargaBagasi[1];
+    else if (bagasi == 'C') hargaBag = hargaBagasi[2];
+    else { bagasi = 'X'; hargaBag = 0; }
+
+    int total = hargaKursi + hargaBag;
+
+    denah[b][k] = bagasi;
+
+    tampilkanStruk(nama, kelasStr, baris, kolom, bagasi,
+                   total, hargaKursi, hargaBag, jumlahTiket);
+
+    *totalSemua += total;
+}
+
+void pesanKursi() {
+    char nama[50], kelas;
+    int jumlahTiket;
+
+    printf("Nama pemesan: ");
+    scanf(" %[^\n]", nama);
+
+    printf("Pilih kelas (F/B/E): ");
+    scanf(" %c", &kelas);
+    kelas = toupper(kelas);
+
+    printf("Berapa tiket ingin dipesan? ");
+    scanf("%d", &jumlahTiket);
+
+    int totalAll = 0;
+
+    for (int i = 1; i <= jumlahTiket; i++) {
+        pesanTiketKe(i, nama, kelas, &totalAll, jumlahTiket);
+    }
+
+    tampilkanDenah();
+
+    printf("\n==========================\n");
+    printf("TOTAL PEMBAYARAN SEMUA: Rp %d\n", totalAll);
+    printf("==========================\n");
+
+    pause();
+}
+
+void tampilkanStruk(char nama[], char kelasStr[], int baris, char kolom,
+                    char bagasi, int total, int hargaKursi, int hargaBag, int jumlahTiket) {
+
+    time_t t = time(NULL);
+    char waktu[50];
+    strftime(waktu, sizeof(waktu), "%Y-%m-%d %H:%M:%S", localtime(&t));
+
+    printf("\n======= STRUK PEMBAYARAN =======\n");
+    printf("Nama Pemesan    : %s\n", nama);
+    printf("Kelas           : %s\n", kelasStr);
+    printf("Nomor Kursi     : %d%c\n", baris, kolom);
+    printf("Harga Per Kursi : Rp %d\n", hargaKursi);
+    printf("Bagasi          : %c\n", bagasi);
+    printf("Harga Bagasi    : Rp %d\n", hargaBag);
+    printf("Jumlah Pesanan  : %d Tiket\n", jumlahTiket);
+    printf("---------------------------------\n");
+    printf("TOTAL BAYAR     : Rp %d\n", total);
+    printf("Waktu           : %s\n", waktu);
+    printf("=================================\n");
+    printf("Terima kasih telah memesan!\n");
+}
+
+void batalkanKursi() {
+    int baris;
+    char kolom;
+
+    printf("Masukkan baris: ");
+    scanf("%d", &baris);
+    printf("Masukkan kolom (A-F): ");
+    scanf(" %c", &kolom);
+    kolom = toupper(kolom);
+
+    if (baris < 1 || baris > BARIS) {
+        printf("Tidak valid!\n");
+        pause();
+        return;
+    }
+
+    int b = baris - 1;
+    int k = kolom - 'A';
+
+    if (denah[b][k] == '_') {
+        printf("Kursi sudah kosong.\n");
+        pause();
+        return;
+    }
+
+    denah[b][k] = '_';
+    printf("Pemesanan dibatalkan.\n");
+    pause();
+}
+
+void rekomendasiKursi() {
+    char kelas;
+    printf("Pilih kelas (F/B/E): ");
+    scanf(" %c", &kelas);
+    kelas = toupper(kelas);
+
+    int start = -1, end = -1;
+    if (kelas == 'F') { start = 0; end = 2; }
+    else if (kelas == 'B') { start = 2; end = 5; }
+    else if (kelas == 'E') { start = 5; end = 15; }
+
+    for (int i=start; i<end; i++)
+        for (int j=0; j<KOLOM; j++)
+            if (denah[i][j] == '_') {
+                printf("Rekomendasi kursi terbaik: %d%c\n", i+1, 'A'+j);
+                pause();
+                return;
+            }
+
+    printf("Tidak ada kursi kosong.\n");
+    pause();
+}
+
+void statistik() {
+    int kosong = 0, terisi = 0;
+    int F = 0, B = 0, E = 0; 
+    int pendapatan = 0;
+
+    for (int i = 0; i < BARIS; i++) {
+        for (int j = 0; j < KOLOM; j++) {
+
+            char s = denah[i][j];
+
+            if (s == '_') {
+                kosong++;
+                continue;
+            }
+
+            terisi++;
+
+            int hargaKursi = 0;
+            int hargaBag = 0;
+
+            if (i < 2) {             
+                F++;
+                hargaKursi = hargaKelas[0];
+            }
+            else if (i < 5) {         
+                B++;
+                hargaKursi = hargaKelas[1];
+            }
+            else {                    
+                E++;
+                hargaKursi = hargaKelas[2];
+            }
+
+            
+            if (s == 'A') hargaBag = hargaBagasi[0];
+            else if (s == 'B') hargaBag = hargaBagasi[1];
+            else if (s == 'C') hargaBag = hargaBagasi[2];
+            else hargaBag = 0; 
+            pendapatan += hargaKursi + hargaBag;
+        }
+    }
+
+
+    printf("\n========= STATISTIK =========\n");
+    printf("Kursi Kosong : %d\n", kosong);
+    printf("Kursi Terisi : %d\n", terisi);
+
+    printf("\nPersentase First   : %.2f%%\n", (float)F / 12 * 100);
+    printf("Persentase Business: %.2f%%\n", (float)B / 18 * 100);
+    printf("Persentase Economy : %.2f%%\n", (float)E / 60 * 100);
+
+    printf("\nPendapatan Total   : Rp %d\n", pendapatan);
+
+    pause();
+}
+
+void resetData() {
+    char u[20], p[20];
+    printf("Username admin: ");
+    scanf("%s", u);
+    printf("Password admin: ");
+    scanf("%s", p);
+    while(getchar()!='\n');
+
+    if (strcmp(u,"admin")==0 && strcmp(p,"admin")==0) {
+        initDenah();
+        printf("Semua data berhasil direset.\n");
+    } else {
+        printf("Login gagal!\n");
+    }
+
+    pause();
+}

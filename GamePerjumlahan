@@ -1,0 +1,63 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+int main(){
+    int q = 0, wrong = 0, score = 0;
+    int x, y, limit;
+    float userAns, correctAns;
+    char op;
+
+    srand(time(0));
+
+    printf("======GAME SOAL======\n\n");
+    while (q < 9){
+        if (q < 3){
+            limit = 10;
+        } else if (q < 6){
+            limit = 30;
+        } else {
+            limit = 60;
+        }
+
+        x = rand() % limit + 1;
+        y = rand() % limit + 1;
+
+        int sym = rand() % 4;
+
+        if (sym == 0){
+            op = '*';
+            correctAns = x * y;
+        } else if (sym == 1){
+            op = '/';
+            correctAns = (float)x / y;
+        } else if (sym == 2){
+            op = '+';
+            correctAns = x + y;
+        } else {
+            op = '-';
+            correctAns = x - y;
+        }
+        printf(" SOAL %d = %d %c %d = ", q+1, x, op, y);
+        scanf("%f", &userAns);
+
+        if (userAns == correctAns){
+            printf("JAWABAN ANDA BENAR!\n");
+            if (q < 3) score += 5;
+            else if (q < 6) score += 10;
+            else score += 15;
+        } else {
+            printf("JAWABAN ANDA SALAH, BERIKUT JAWABAN YANG BENAR = %.2f\n", correctAns);
+            wrong++;
+            if (wrong == 3){
+                printf("=========GAME OVER=========\n");
+                printf("ANDA SUDAH MENCOBA 3 KALI :(\n");
+                break;
+            }
+        }
+        q++;
+        printf("\n");
+    }
+    printf("BERIKUT JUMLAH SKOR ANDA : %d\n", score);
+    return 0;
+}

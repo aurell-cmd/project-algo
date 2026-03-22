@@ -1,0 +1,11 @@
+#include <stdio.h>
+
+int main() {
+    int i, x = 1;
+
+    for (i = 0; i < 4; i++) {
+        printf("%d x %d = %d\n", x, x, x * x);
+        x = x * 2;
+    }
+    return 0;
+}

@@ -1,0 +1,28 @@
+#include <stdio.h>
+
+int main() {
+    float suhu[7], total = 0, rata;
+    int i;
+    float min, max;
+
+    printf("Input suhu selama 7 hari:\n");
+    for(i = 0; i < 7; i++) {
+        printf("Hari ke-%d: ", i + 1);
+        scanf("%f", &suhu[i]);
+        total += suhu[i];
+    }
+
+    rata = total / 7;
+    min = max = suhu[0];
+
+    for(i = 1; i < 7; i++) {
+        if(suhu[i] < min) min = suhu[i];
+        if(suhu[i] > max) max = suhu[i];
+    }
+
+    printf("\nsuhu rata-rata: %.2f\n", rata);
+    printf("suhu paling dingin: %.2f\n", min);
+    printf("suhu paling panas: %.2f\n", max);
+
+    return 0;
+}

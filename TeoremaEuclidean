@@ -1,0 +1,21 @@
+#include <stdio.h>
+
+int main() {
+    int m, n, r;
+    printf("Masukkan nilai m = ");
+    scanf("%d", &m);
+    printf("Masukkan nilai n = ");
+    scanf("%d", &n);
+
+    int a = m, b = n;
+
+    while (n != 0) {
+        r = m % n;
+        printf("PBB (%d,%d)= %d\n", m, n, r);
+        m = n;
+        n = r;
+    }
+
+    printf("Hasil akhir PBB = %d\n", m);
+    return 0;
+}

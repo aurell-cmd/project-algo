@@ -1,0 +1,44 @@
+#include <stdio.h>
+
+int main() {
+    int dataInput[5];
+    int idx, nilaiTertinggi;
+
+    printf("Masukkan 5 bilangan integer:\n");
+    for (idx = 0; idx < 5; idx++) {
+        printf("Bilangan ke-%d: ", idx + 1);
+        scanf("%d", &dataInput[idx]);
+    }
+
+    printf("\nBilangan yang dimasukkan:\n");
+    for (idx = 0; idx < 5; idx++) {
+        printf("%d ", dataInput[idx]);
+    }
+
+    nilaiTertinggi = dataInput[0];
+    for (idx = 1; idx < 5; idx++) {
+        if (dataInput[idx] > nilaiTertinggi)
+            nilaiTertinggi = dataInput[idx];
+    }
+
+    printf("\nNilai maksimal: %d\n", nilaiTertinggi);
+
+    FILE *berkas = fopen("MaxValue.txt", "r");
+    int nilaiBerkas = -999999;
+
+    if (berkas != NULL) {
+        fscanf(berkas, "%d", &nilaiBerkas);
+        fclose(berkas);
+    }
+
+    if (nilaiTertinggi > nilaiBerkas) {
+        berkas = fopen("MaxValue.txt", "w");
+        fprintf(berkas, "%d", nilaiTertinggi);
+        fclose(berkas);
+        printf("Nilai di file diperbarui menjadi: %d\n", nilaiTertinggi);
+    } else {
+        printf("Nilai maksimal tidak lebih besar dari nilai pada file. Tidak ada perubahan.\n");
+    }
+
+    return 0;
+}

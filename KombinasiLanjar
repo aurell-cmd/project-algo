@@ -1,0 +1,40 @@
+#include <stdio.h>
+
+int euclid_ext(int a, int b, int *x, int *y) {
+    if (b == 0) {
+        *x = 1;
+        *y = 0;
+        return a;
+    }
+    int x1, y1;
+    int gcd = euclid_ext(b, a % b, &x1, &y1);
+
+    *x = y1;
+    *y = x1 - (a / b) * y1;
+
+    return gcd;
+}
+
+int main() {
+    int m, n;
+    printf("Masukkan nilai m = ");
+    scanf("%d", &m);
+    printf("Masukkan nilai n = ");
+    scanf("%d", &n);
+
+    int x, y;
+    int gcd = euclid_ext(m, n, &x, &y);
+
+    int a = m, b = n;
+    while (b != 0) {
+        printf("%d = (%d * %d) + %d\n", a, b, a / b, a % b);
+        int temp = a % b;
+        a = b;
+        b = temp;
+    }
+
+    printf("PBB(%d, %d) = %d\n", m, n, gcd);
+    printf("Kombinasi linear: %d = (%d)(%d) + (%d)(%d)\n", gcd, m, x, n, y);
+
+    return 0;
+}

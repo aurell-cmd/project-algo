@@ -1,0 +1,17 @@
+#include <iostream>
+using namespace std;
+
+int main() {
+    int LamaStudi;
+
+    cout << "Masukkan Lama Studi (tahun): ";
+    cin >> LamaStudi;
+
+    if (LamaStudi <= 4) {
+        cout << "Tepat Waktu" << endl;
+    } else {
+        cout << "Tidak Tepat Waktu" << endl;
+    }
+
+    return 0;
+}

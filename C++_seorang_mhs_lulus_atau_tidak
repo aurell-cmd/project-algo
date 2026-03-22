@@ -1,0 +1,74 @@
+#include <iostream>
+using namespace std;
+
+int main(){
+    int sks, semester, skpi;
+    float ipk;
+    char LulusSkripsi, MemilikiTulisanIlmiah, MemilikiSertifikasi;
+    bool lulus = true;
+
+    cout<<"PROGRAM PENENTUAN KELULUSAN MAHASISWA\n";
+
+    cout<<"MASUKKAN JUMLAH SKS\n";
+    cin>>sks;
+
+    cout<<"MASUKKAN JUMLAH IPK\n";
+    cin>>ipk;
+
+    cout<<"MASUKKAN JUMLAH STUDI SEMESTER\n";
+    cin>>semester;
+
+    cout<<"JUMLAH POIN SKPI\n";
+    cin>>skpi;
+
+    cin.ignore();
+
+    cout<<"APAKAH SUDAH LULUS SKRIPSI? (Y/N)\n";
+    cin>>LulusSkripsi;
+
+    cout<<"APAKAH SUDAH MEMILIKI TULISAN ILMIAH? (Y/N)\n";
+    cin>>MemilikiTulisanIlmiah;
+
+    cout<<"APAKAH SUDAH MEMILIKI SERTIFIKASI? (Y/N)\n";
+    cin>>MemilikiSertifikasi;
+
+    cout<<"===HASIL DARI DATA===\n";
+
+    if (sks < 144){
+        cout<<"1.TOTAL SKS BELUM MEMENUHI SYARAT KELULUSAN(144)\n";
+        lulus = false;
+    }
+   if (ipk < 2.4){ 
+       cout<<"2.NILAI IPK ANDA BELUM MEMENUHI SYARAT KELULUSAN(2.4)\n";
+       lulus = false;
+    }
+    if (semester > 16){
+        cout<<"3.LAMA MASA STUDI SEMESTER ANDA MELAMPAUI BATAS MAKSIMAL\n";
+        lulus = false;
+    }
+    if (skpi < 150){
+        cout<<"4.JUMLAH POIN SKPI BELUM MEMENUHI SYARAT MINIMAL\n";
+        lulus = false;
+    }
+    if (LulusSkripsi == 'N'){
+        cout<<"5.ANDA TIDAK LULUS SKRIPSI\n";
+        lulus = false;
+    }
+    if (MemilikiTulisanIlmiah == 'N'){
+        cout<<"6.ANDA TIDAK MEMILIKI TULISAN ILMIAH\n";
+        lulus = false;
+    }
+    if (MemilikiSertifikasi == 'N'){
+        cout<<"7.ANDA TIDAK MEMILIKI SERTIFIKASI\n";
+        lulus = false;
+    }
+
+    if (lulus){
+        cout<<"===ANDA DINYATAKAN LULUS===\n";
+    }
+    else {
+        cout<<"===ANDA TIDAK DINYATAN LULUS===\n";
+    }
+
+    return 0;
+}

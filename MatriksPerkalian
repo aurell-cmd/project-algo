@@ -1,0 +1,53 @@
+#include <stdio.h>
+
+int main() {
+    int a_baris, a_kolom, b_baris, b_kolom;
+    int A[10][10], B[10][10], C[10][10];
+
+    printf("=== PROGRAM PERKALIAN MATRIKS ===\n");
+    printf("Masukkan ukuran matriks A (baris kolom) = ");
+    scanf("%d %d", &a_baris, &a_kolom);
+    printf("Masukkan ukuran matriks B (baris kolom) = ");
+    scanf("%d %d", &b_baris, &b_kolom);
+
+    if (a_kolom != b_baris) {
+        printf("Perkalian tidak dapat dilakukan!\n");
+        printf("Syarat: kolom matriks A harus sama dengan baris matriks B.\n");
+        return 0;
+    }
+
+    printf("Masukkan elemen matriks A =\n");
+    for (int i = 0; i < a_baris; i++) {
+        for (int j = 0; j < a_kolom; j++) {
+            printf("A[%d][%d]: ", i+1, j+1);
+            scanf("%d", &A[i][j]);
+        }
+    }
+
+    printf("Masukkan elemen matriks B =\n");
+    for (int i = 0; i < b_baris; i++) {
+        for (int j = 0; j < b_kolom; j++) {
+            printf("B[%d][%d]: ", i+1, j+1);
+            scanf("%d", &B[i][j]);
+        }
+    }
+
+    for (int i = 0; i < a_baris; i++) {
+        for (int j = 0; j < b_kolom; j++) {
+            C[i][j] = 0;
+            for (int k = 0; k < a_kolom; k++) {
+                C[i][j] += A[i][k] * B[k][j];
+            }
+        }
+    }
+
+    printf("Hasil Perkalian Matriks =\n");
+    for (int i = 0; i < a_baris; i++) {
+        for (int j = 0; j < b_kolom; j++) {
+            printf("%4d", C[i][j]);
+        }
+        printf("\n");
+    }
+
+    return 0;
+}
